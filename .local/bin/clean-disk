@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if command -v pip >/dev/null 2>&1; then
+        echo "pip cache purge..."
+        pip cache purge
+fi
+if command -v uv >/dev/null 2>&1; then
+        echo "uv cache clean..."
+        uv cache clean
+fi
+if command -v go >/dev/null 2>&1; then
+        echo "go clean -cache"
+        go clean -cache
+fi
