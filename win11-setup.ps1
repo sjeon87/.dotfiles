@@ -32,6 +32,8 @@ InstallWingetPkg("Git.Git")
 InstallWingetPkg("Microsoft.PowerToys")
 InstallWingetPkg("voidtools.Everything")
 InstallWingetPkg("Notepad++.Notepad++")
+InstallWingetPkg("Neovim.Neovim")
+InstallWingetPkg("Bandisoft.Bandizip")
 
 Write-Host "`nPress any key to close:"
 $null = [System.Console]::ReadKey($true)
