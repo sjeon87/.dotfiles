@@ -31,6 +31,7 @@ function InstallWingetPkg {
 InstallWingetPkg("Git.Git")
 InstallWingetPkg("Microsoft.PowerToys")
 InstallWingetPkg("voidtools.Everything")
+InstallWingetPkg("Notepad++.Notepad++")
 
 Write-Host "`nPress any key to close:"
 $null = [System.Console]::ReadKey($true)
