@@ -59,6 +59,7 @@ InstallWingetPkg("Neovim.Neovim")
 InstallWingetPkg("Bandisoft.Bandizip")
 InstallWingetPkg("Bitwarden.Bitwarden")
 InstallWingetPkg("Microsoft.VisualStudioCode")
+InstallWingetPkg("OpenJS.NodeJS")
 if ($samsung) {
   InstallWingetPkg -appName "Samsung Update" -appId 9NQ3HDB99VBF -source msstore
   InstallWingetPkg -appName "Samsung Settings 1.5" -appId 9P2TBWSHK6HJ -source msstore
