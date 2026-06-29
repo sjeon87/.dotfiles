@@ -59,6 +59,7 @@ InstallWingetPkg("Neovim.Neovim")
 InstallWingetPkg("Bandisoft.Bandizip")
 InstallWingetPkg("Bitwarden.Bitwarden")
 InstallWingetPkg("Microsoft.VisualStudioCode")
+InstallWingetPkg("Obsidian.Obsidian")
 InstallWingetPkg("OpenJS.NodeJS")
 InstallWingetPkg("GoLang.Go")
 if ($samsung) {
