@@ -32,6 +32,11 @@ function InstallWingetPkg {
   }
 }
 
+# App theme to dark mode
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Value 0
+# System theme (startmenu, taskbar) to dark mode
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Value 0
+
 ################################################################################
 # Desktop system icons                                                         #
 ################################################################################
@@ -45,6 +50,7 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -Value 1
 # Control panel
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" -Value 1
+
 # Restart Explorer for immediate update
 Stop-Process -Name explorer -Force
 
@@ -62,6 +68,7 @@ InstallWingetPkg("Microsoft.VisualStudioCode")
 InstallWingetPkg("Obsidian.Obsidian")
 InstallWingetPkg("OpenJS.NodeJS")
 InstallWingetPkg("GoLang.Go")
+InstallWingetPkg("Python.Python.3.14")
 if ($samsung) {
   InstallWingetPkg -appName "Samsung Update" -appId 9NQ3HDB99VBF -source msstore
   InstallWingetPkg -appName "Samsung Settings 1.5" -appId 9P2TBWSHK6HJ -source msstore
