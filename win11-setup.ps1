@@ -58,6 +58,7 @@ InstallWingetPkg("Notepad++.Notepad++")
 InstallWingetPkg("Neovim.Neovim")
 InstallWingetPkg("Bandisoft.Bandizip")
 InstallWingetPkg("Bitwarden.Bitwarden")
+InstallWingetPkg("Microsoft.VisualStudioCode")
 if ($samsung) {
   InstallWingetPkg -appName "Samsung Update" -appId 9NQ3HDB99VBF -source msstore
 }
