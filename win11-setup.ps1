@@ -5,6 +5,35 @@
 
 $samsung = (Get-CimInstance -ClassName Win32_ComputerSystem).Manufacturer -match "samsung"
 
+function UpdateRegistryInt {
+  param (
+    [Parameter(Mandatory=$true)]
+    [string]$path
+    [Parameter(Mandatory=$true)]
+    [string]$name
+    [Parameter(Mandatory=$true)]
+    [string]$prompt
+  )
+
+  $updated = $false
+  if (-not (Test-Path $path)) {
+    New-Item -Path $path -Force | Out-Null
+    $updated = $true
+  }
+
+  $inputValue = Read-Host $prompt
+  $newValue = $inputValue -as [int]
+  if ($newValue -eq $null) {
+    return $updated
+  }
+  $currentValue = Get-ItemPropertyValue -Path $path -Name $name -ErrorAction SilentlyContinue
+  if ($currentValue - eq $null -or $currentValue -ne $newValue) {
+    Set-ItemProperty -Path $path -Name $name -Value $newValue
+    $updated = $true
+  }
+  return $updated
+}
+
 function InstallWingetPkg {
   param (
     [Parameter(Mandatory=$true)]
@@ -32,27 +61,17 @@ function InstallWingetPkg {
   }
 }
 
-# App theme to dark mode
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Value 0
-# System theme (startmenu, taskbar) to dark mode
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Value 0
-
-################################################################################
-# Desktop system icons                                                         #
-################################################################################
-# Document (Home folder)
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -Value 1
-# Computer
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Value 1
-# Trash bin
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{645FF040-5081-101B-9F08-00AA002F954E}" -Value 0
-# Network
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -Value 1
-# Control panel
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" -Value 1
-
-# Restart Explorer for immediate update
-Stop-Process -Name explorer -Force
+$shouldRestartExplorer = $false
+$shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -name "AppsUseLightTheme" -prompt "Use dark mode to apps (0: light mode, 1: dark mode)?"
+$shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -name "SystemUsesLightTheme" -prompt "Use dark mode to system (0: light mode, 1: dark mode)?"
+$shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -name "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" -prompt "Hide Home folder on desktop (0: show, 1: hide)?"
+$shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -prompt "Hide Computer on desktop (0: show, 1: hide)?"
+$shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -name "{645FF040-5081-101B-9F08-00AA002F954E}" -prompt "Hide Trash bin on desktop (0: show, 1: hide)?"
+$shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -prompt "Hide Network on desktop (0: show, 1: hide)?"
+$shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -name "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" -prompt "Hide Control panel on desktop (0: show, 1: hide)?"
+if ($shouldRestartExplorer -eq $true) {
+  Stop-Process -Name explorer -Force
+}
 
 ################################################################################
 # Install softwares                                                            #
