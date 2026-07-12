@@ -1,0 +1,23 @@
+# Applicable to POSIX shells. Not csh, tcsh and fish
+
+# smart tmux: bare `tmux` attaches to an existing session, else creates one
+tmux() {
+    if [ -n "$TMUX" ]; then
+        # already inside tmux — don't nest; open a new window instead
+        if [ "$#" -eq 0 ]; then
+            command tmux new-window
+            return
+        fi
+        command tmux "$@"
+        return
+    fi
+    if [ "$#" -eq 0 ]; then
+        if command tmux has-session >/dev/null 2>&1; then
+            command tmux attach-session
+        else
+            command tmux new-session
+        fi
+    else
+        command tmux "$@"
+    fi
+}
