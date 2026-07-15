@@ -89,6 +89,7 @@ InstallWingetPkg("Obsidian.Obsidian")
 InstallWingetPkg("OpenJS.NodeJS")
 InstallWingetPkg("GoLang.Go")
 InstallWingetPkg("Python.Python.3.14")
+InstallWingetPkg("NSSM.NSSM")
 if ($samsung) {
   InstallWingetPkg -appName "Samsung Update" -appId 9NQ3HDB99VBF -source msstore
   InstallWingetPkg -appName "Samsung Settings 1.5" -appId 9P2TBWSHK6HJ -source msstore
