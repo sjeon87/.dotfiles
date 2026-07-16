@@ -78,6 +78,7 @@ if ($shouldRestartExplorer -eq $true) {
 # Install softwares                                                            #
 ################################################################################
 InstallWingetPkg("Git.Git")
+InstallWingetPkg("Microsoft.PowerShell")
 InstallWingetPkg("Microsoft.PowerToys")
 InstallWingetPkg("voidtools.Everything")
 InstallWingetPkg("Notepad++.Notepad++")
