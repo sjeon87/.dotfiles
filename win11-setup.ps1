@@ -70,6 +70,7 @@ $shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKC
 $shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -name "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" -prompt "Hide Network on desktop (0: show, 1: hide)?"
 $shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -name "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}" -prompt "Hide Control panel on desktop (0: show, 1: hide)?"
 $shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -name "HideFileExt" -prompt "Hide file extension (0: show, 1: hide)?"
+$shouldRestartExplorer = $shouldRestartExplorer -or UpdateRegistryInt -path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -name "EnableTaskGroups" -prompt "Enable grouping of snapped windows? (0: disable, 1: enable)?"
 if ($shouldRestartExplorer -eq $true) {
   Stop-Process -Name explorer -Force
 }
